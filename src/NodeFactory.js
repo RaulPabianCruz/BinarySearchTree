@@ -1,5 +1,5 @@
-function NodeFactory(data = '', left = null, right = null) {
-  return { data, left, right };
+function NodeFactory(value = '', leftChild = null, rightChild = null) {
+  return { value, leftChild, rightChild };
 }
 
 export default NodeFactory;
