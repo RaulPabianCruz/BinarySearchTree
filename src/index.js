@@ -26,3 +26,6 @@ prettyPrint(rootNode);
 console.log('-------------------------');
 binarySearchTree.deleteItem(22);
 prettyPrint(binarySearchTree.getRoot());
+
+const newNode = binarySearchTree.findValue(31);
+prettyPrint(newNode);

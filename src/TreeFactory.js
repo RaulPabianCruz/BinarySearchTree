@@ -78,12 +78,27 @@ function BSTFactory(data = []) {
     if (root !== null) root = removeEntry(root, value);
   }
 
+  function findEntry(rootNode, value) {
+    if (rootNode !== null) {
+      const rootValue = rootNode.value;
+      if (value < rootValue) return findEntry(rootNode.leftChild, value);
+      if (value > rootValue) return findEntry(rootNode.rightChild, value);
+    }
+    return rootNode;
+  }
+
+  function findValue(value) {
+    return findEntry(root, value);
+  }
+
+  function levelOrderTraversal(cb) {}
+
   function getRoot() {
     return root;
   }
 
   buildTree(data);
-  return { buildTree, insert, deleteItem, getRoot };
+  return { buildTree, insert, deleteItem, findValue, getRoot };
 }
 
 export default BSTFactory;
