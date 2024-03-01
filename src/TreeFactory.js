@@ -27,11 +27,8 @@ function BSTFactory(data = []) {
       else rootNode.leftChild = NodeFactory(value);
     }
     if (value > rootValue) {
-      if (rootNode.rightChild !== null) {
-        addEntry(rootNode.rightChild, value);
-      } else {
-        rootNode.rightChild = NodeFactory(value);
-      }
+      if (rootNode.rightChild !== null) addEntry(rootNode.rightChild, value);
+      else rootNode.rightChild = NodeFactory(value);
     }
   }
 
@@ -91,14 +88,162 @@ function BSTFactory(data = []) {
     return findEntry(root, value);
   }
 
-  function levelOrderTraversal(cb) {}
+  function levelOrder(cb = null) {
+    const nodeArrayQueue = [root];
+    const returnArray = [];
+    while (nodeArrayQueue.length > 0) {
+      const tempNode = nodeArrayQueue.shift();
+      if (tempNode.leftChild !== null) nodeArrayQueue.push(tempNode.leftChild);
+      if (tempNode.rightChild !== null)
+        nodeArrayQueue.push(tempNode.rightChild);
+
+      if (cb !== null) cb(tempNode);
+      else returnArray.push(tempNode.value);
+    }
+
+    if (cb === null) return returnArray;
+    return undefined;
+  }
+
+  function preOrderTraversal(rootNode, cb = null) {
+    if (rootNode !== null) {
+      if (cb !== null) {
+        cb(rootNode);
+        preOrderTraversal(rootNode.leftChild, cb);
+        preOrderTraversal(rootNode.rightChild, cb);
+      } else {
+        const tmpArray = [rootNode.value];
+        if (rootNode.leftChild === null && rootNode.rightChild === null)
+          return tmpArray;
+        if (rootNode.leftChild === null)
+          return tmpArray.concat(preOrderTraversal(rootNode.rightChild, cb));
+        if (rootNode.rightChild === null)
+          return tmpArray.concat(preOrderTraversal(rootNode.leftChild, cb));
+
+        return tmpArray.concat(
+          preOrderTraversal(rootNode.leftChild, cb),
+          preOrderTraversal(rootNode.rightChild, cb),
+        );
+      }
+    }
+    return undefined;
+  }
+
+  function preOrder(cb = null) {
+    return preOrderTraversal(root, cb);
+  }
+
+  function inOrderTraversal(rootNode, cb) {
+    if (rootNode !== null) {
+      if (cb !== null) {
+        inOrderTraversal(rootNode.leftChild, cb);
+        cb(rootNode);
+        inOrderTraversal(rootNode.rightChild, cb);
+      } else {
+        const tmpArray = [];
+        if (rootNode.leftChild === null && rootNode.rightChild === null)
+          return tmpArray.concat(rootNode.value);
+        if (rootNode.leftChild === null)
+          return tmpArray.concat(
+            rootNode.value,
+            inOrderTraversal(rootNode.rightChild, cb),
+          );
+        if (rootNode.rightChild === null)
+          return tmpArray.concat(
+            inOrderTraversal(rootNode.leftChild, cb),
+            rootNode.value,
+          );
+
+        return tmpArray.concat(
+          inOrderTraversal(rootNode.leftChild, cb),
+          rootNode.value,
+          inOrderTraversal(rootNode.rightChild, cb),
+        );
+      }
+    }
+    return undefined;
+  }
+
+  function inOrder(cb = null) {
+    return inOrderTraversal(root, cb);
+  }
+
+  function postOrderTraversal(rootNode, cb) {
+    if (rootNode !== null) {
+      if (cb !== null) {
+        postOrderTraversal(rootNode.leftChild, cb);
+        postOrderTraversal(rootNode.rightChild, cb);
+        cb(rootNode);
+      } else {
+        const tmpArray = [];
+        if (rootNode.leftChild === null && rootNode.rightChild === null)
+          return tmpArray.concat(rootNode.value);
+        if (rootNode.leftChild === null)
+          return tmpArray.concat(
+            postOrderTraversal(rootNode.rightChild, cb),
+            rootNode.value,
+          );
+        if (rootNode.rightChild === null)
+          return tmpArray.concat(
+            postOrderTraversal(rootNode.leftChild, cb),
+            rootNode.value,
+          );
+
+        return tmpArray.concat(
+          postOrderTraversal(rootNode.leftChild, cb),
+          postOrderTraversal(rootNode.rightChild, cb),
+          rootNode.value,
+        );
+      }
+    }
+    return undefined;
+  }
+
+  function postOrder(cb = null) {
+    return postOrderTraversal(root, cb);
+  }
+
+  function getHeight(node) {
+    if (node === null) return 0;
+
+    return 1 + Math.max(getHeight(node.leftChild), getHeight(node.rightChild));
+  }
+
+  function height(node) {
+    return Math.max(getHeight(node.leftChild), getHeight(node.rightChild));
+  }
+
+  function getDepth(rootNode, value) {
+    if (rootNode === null) return 0;
+    const rootValue = rootNode.value;
+    if (value < rootValue) return 1 + getDepth(rootNode.leftChild, value);
+    if (value > rootValue) return 1 + getDepth(rootNode.rightChild, value);
+    if (value === rootValue) return 0;
+  }
+
+  function depth(node) {
+    if (findEntry(root, node.value) !== null) return getDepth(root, node.value);
+    return undefined;
+  }
 
   function getRoot() {
     return root;
   }
 
   buildTree(data);
-  return { buildTree, insert, deleteItem, findValue, getRoot };
+  return {
+    buildTree,
+    insert,
+    deleteItem,
+    findValue,
+    levelOrder,
+    preOrder,
+    inOrder,
+    postOrder,
+    height,
+    depth,
+    getRoot,
+  };
 }
 
 export default BSTFactory;

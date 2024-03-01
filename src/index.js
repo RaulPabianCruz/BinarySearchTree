@@ -15,7 +15,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 const dataSet = [2, 5, 13, 22, 29, 31, 36, 45];
 const binarySearchTree = BSTFactory();
-const rootNode = binarySearchTree.buildTree(dataSet);
+let rootNode = binarySearchTree.buildTree(dataSet);
 prettyPrint(rootNode);
 console.log('------------------------');
 binarySearchTree.insert(4);
@@ -27,5 +27,9 @@ console.log('-------------------------');
 binarySearchTree.deleteItem(22);
 prettyPrint(binarySearchTree.getRoot());
 
-const newNode = binarySearchTree.findValue(31);
-prettyPrint(newNode);
+console.log('-------------------------');
+
+rootNode = binarySearchTree.getRoot();
+const leafNode = binarySearchTree.findValue(45);
+console.log(binarySearchTree.height(leafNode));
+console.log(binarySearchTree.depth(rootNode));
