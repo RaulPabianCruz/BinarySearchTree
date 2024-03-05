@@ -226,6 +226,25 @@ function BSTFactory(data = []) {
     return undefined;
   }
 
+  function checkBalance(rootNode) {
+    if (rootNode === null) return 0;
+    const leftBalance = checkBalance(rootNode.leftChild);
+    const rightBalance = checkBalance(rootNode.rightChild);
+    if (Math.abs(leftBalance - rightBalance) > 1) return -1;
+    return Math.max(leftBalance, rightBalance) + 1;
+  }
+
+  function isBalanced() {
+    if (root === null) return true;
+    if (checkBalance(root) === -1) return false;
+    return true;
+  }
+
+  function rebalance() {
+    const newArray = inOrderTraversal(root, null);
+    buildTree(newArray);
+  }
+
   function getRoot() {
     return root;
   }
@@ -242,6 +261,8 @@ function BSTFactory(data = []) {
     postOrder,
     height,
     depth,
+    isBalanced,
+    rebalance,
     getRoot,
   };
 }

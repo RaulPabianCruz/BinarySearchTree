@@ -13,23 +13,19 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const dataSet = [2, 5, 13, 22, 29, 31, 36, 45];
-const binarySearchTree = BSTFactory();
-let rootNode = binarySearchTree.buildTree(dataSet);
-prettyPrint(rootNode);
-console.log('------------------------');
-binarySearchTree.insert(4);
-binarySearchTree.insert(10);
-binarySearchTree.insert(30);
-prettyPrint(rootNode);
+function createArray() {
+  const tempArray = [];
+  for (let i = 0; i < 30; i += 1) {
+    let num = Math.random() * 100;
+    num = Math.floor(num);
+    tempArray.push(num);
+  }
 
-console.log('-------------------------');
-binarySearchTree.deleteItem(22);
-prettyPrint(binarySearchTree.getRoot());
+  tempArray.sort();
 
-console.log('-------------------------');
+  for (let i = 1; i < 30; i += 1) {
+    if (tempArray[i - 1] === tempArray[i]) tempArray.splice(i, 1);
+  }
 
-rootNode = binarySearchTree.getRoot();
-const leafNode = binarySearchTree.findValue(45);
-console.log(binarySearchTree.height(leafNode));
-console.log(binarySearchTree.depth(rootNode));
+  return tempArray;
+}
