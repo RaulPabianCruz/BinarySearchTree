@@ -230,13 +230,13 @@ function BSTFactory(data = []) {
     if (rootNode === null) return 0;
     const leftBalance = checkBalance(rootNode.leftChild);
     const rightBalance = checkBalance(rootNode.rightChild);
-    if (Math.abs(leftBalance - rightBalance) > 1) return -1;
+    if (Math.abs(leftBalance - rightBalance) > 1) return -2;
     return Math.max(leftBalance, rightBalance) + 1;
   }
 
   function isBalanced() {
     if (root === null) return true;
-    if (checkBalance(root) === -1) return false;
+    if (checkBalance(root) === -2) return false;
     return true;
   }
 
